@@ -1,4 +1,4 @@
-version: "3.8"
+# docker-compose up -d
 
 services:
   nginx: # web server
@@ -19,4 +19,4 @@ services:
     ports:
       - "3316:3306"
     env_file:
-      - ./env/mysql_env
+      - ./env/mysql.env
