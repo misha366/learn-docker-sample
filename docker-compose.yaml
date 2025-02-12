@@ -14,4 +14,9 @@ services:
       dockerfile: php.Dockerfile
     volumes:
       - ./src:/var/www/laravel
-  mysql: 
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3316:3306"
+    env_file:
+      - ./env/mysql_env
