@@ -4,10 +4,11 @@ services:
   nginx: # web server
     image: "nginx:stable-alpine"
     ports:
-      - "8000:80"
+      - "8000:80" # делает так чтобы запрос на этом компьютере на 8000 порт шёл на 80 порт в контейнере
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./src:/var/www/laravel
+      - ./src:/var/www/laravel # связывает папку src и папку laravel в контейнере, в папке laravel обычно лежат
+      # веб приложения написанные на laravel
   php:
     build:
       context: dockerfiles
