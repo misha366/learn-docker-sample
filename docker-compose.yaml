@@ -35,3 +35,6 @@ services:
       dockerfile: composer
     volumes:
       - ./src:/var/www/laravel
+
+volumes:
+  db_data:
