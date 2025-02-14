@@ -32,7 +32,7 @@ services:
   composer: # docker-compose run composer create-project laravel/laravel . (для единичного запуска)
     build:
       context: dockerfiles
-      dockerfile: composer
+      dockerfile: composer.Dockerfile
     volumes:
       - ./src:/var/www/laravel
 
