@@ -1,4 +1,17 @@
+# docker-compose run composer create-project laravel/laravel . - создать ларавел проект
+
+# docker-compose up nginx -d - запуск
+# чтобы всё работало во время сборки mysql контецнера не надо указывать свойство MYSQL_USER, либо указать, то которое
+# отличается от root
 # docker-compose up -d
+# docker-compose down [--remove-orphans] [-v - удалить все собранные контейнеры]
+
+# виды доступа к artisan:
+# docker-compose exec php sh
+# php artisan migrate
+
+# docker-compose exec php php artisan migrate
+# docker-compose run --rm artisan migrate - этот вариант работает без ошибок
 
 services:
   nginx: # web server
@@ -9,6 +22,10 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./src:/var/www/laravel # связывает папку src и папку laravel в контейнере, в папке laravel обычно лежат
       # веб приложения написанные на laravel
+    depends_on: # если написать docker-compose up nginx -d, то docker поднимет только нужные нам контейнеры, без
+    # composer и artisan
+      - mysql
+      - php
   php:
     build:
       context: dockerfiles
@@ -35,6 +52,15 @@ services:
       dockerfile: composer.Dockerfile
     volumes:
       - ./src:/var/www/laravel
+  # чтобы не создавать orphans контейнеры, надо юзать --rm флаг
+  # docker-compose run --rm artisan inspire
+  artisan:
+    build: 
+      context: dockerfiles
+      dockerfile: php.Dockerfile
+    volumes:
+      - ./src:/var/www/laravel
+    entrypoint: ["php", "/var/www/laravel/artisan"]
 
 volumes:
   db_data:
